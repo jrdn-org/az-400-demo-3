@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Project Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav-bar">
+            <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="/projects" class="nav-link active"><i class="fas fa-tasks"></i> Projects</a>
+        </nav>
+
+        <!-- Header -->
+        <header class="header fade-in">
+            <div class="header-content">
+                <h1><i class="fas fa-folder-open"></i> All Projects</h1>
+                <p class="subtitle">Detailed view of all your projects</p>
+            </div>
+        </header>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <div class="filter-controls">
+                <select id="statusFilter" class="filter-select">
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="completed">Completed</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="planning">Planning</option>
+                </select>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search projects...">
+            </div>
+        </div>
+
+        <!-- Projects List -->
+        <main class="projects-list">
+            {% for project in projects %}
+            <div class="project-detail-card" data-status="{{ project.status }}" data-name="{{ project.name }}">
+                <div class="project-detail-header">
+                    <h3 class="project-detail-title">{{ project.name }}</h3>
+                    <span class="project-detail-status status-{{ project.status }}">{{ project.status|replace('-', ' ')|title }}</span>
+                </div>
+                <div class="project-detail-content">
+                    <div class="project-detail-progress">
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ project.progress }}%"></div>
+                            </div>
+                            <span class="progress-text">{{ project.progress }}% Complete</span>
+                        </div>
+                    </div>
+                    <div class="project-detail-actions">
+                        <button class="action-btn" onclick="viewProject({{ project.id }})">
+                            <i class="fas fa-eye"></i> View Details
+                        </button>
+                        <button class="action-btn" onclick="editProject({{ project.id }})">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </main>
+    </div>
+
+    <!-- Particles Container -->
+    <div id="particles-container"></div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        // Projects page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter functionality
+            const statusFilter = document.getElementById('statusFilter');
+            const searchInput = document.getElementById('searchInput');
+            const projectCards = document.querySelectorAll('.project-detail-card');
+
+            function filterProjects() {
+                const statusValue = statusFilter.value;
+                const searchValue = searchInput.value.toLowerCase();
+
+                projectCards.forEach(card => {
+                    const status = card.dataset.status;
+                    const name = card.dataset.name.toLowerCase();
+                    const statusMatch = statusValue === 'all' || status === statusValue;
+                    const searchMatch = name.includes(searchValue);
+
+                    if (statusMatch && searchMatch) {
+                        card.style.display = 'block';
+                        card.classList.add('fade-in');
+                    } else {
+                        card.style.display = 'none';
+                        card.classList.remove('fade-in');
+                    }
+                });
+            }
+
+            statusFilter.addEventListener('change', filterProjects);
+            searchInput.addEventListener('input', filterProjects);
+
+            // Initialize particles
+            createParticles();
+        });
+
+        function viewProject(id) {
+            // Placeholder for view project details
+            alert(`Viewing project ${id} - Feature coming soon!`);
+        }
+
+        function editProject(id) {
+            // Placeholder for edit project
+            alert(`Editing project ${id} - Feature coming soon!`);
+        }
+    </script>
+</body>
+</html>
