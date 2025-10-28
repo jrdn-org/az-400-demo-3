@@ -132,5 +132,9 @@ def get_joke_categories():
     categories = list(set(joke['category'] for joke in jokes))
     return jsonify({"categories": categories})
 
+@app.route('/projects')
+def projects_page():
+    return render_template('projects.html', projects=projects)
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
