@@ -7,7 +7,7 @@ name: Build and deploy Python app to Azure Web App - funny-web-app
 on:
   push:
     branches:
-      - master
+      - dev
   workflow_dispatch:
 
 jobs:
@@ -63,5 +63,5 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'funny-web-app'
-          slot-name: 'Production'
+          slot-name: 'development'
           
